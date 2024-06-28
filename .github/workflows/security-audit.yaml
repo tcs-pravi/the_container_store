@@ -1,0 +1,42 @@
+name: security-audit
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push events for the master branch
+  push:
+    branches:
+      - 'master'
+  # Triggers the workflow on pull requests for the master branch
+  pull_request:
+    branches:
+      - 'master'
+  schedule:
+    # Run twice a month
+    - cron: '0 0 2,16 * *'
+  # Allows this workflow to be ran manually from the Actions tab
+  workflow_dispatch:
+    inputs:
+      audit-type:
+        type: choice
+        description: Audit Type
+        options:
+          - test
+          - monitor
+          - delta
+
+jobs:
+  call-workflow:
+    uses: the-container-store/github-actions-scripts/.github/workflows/security-audit.yml@master
+    with:
+      APP_ACCESS: internal
+      APP_BUILD_TYPE: gradle17
+      APP_NAME: preston-integrations-proposal-services
+      APP_PROJECT: preston-integrations
+      APP_TEAM: salesforce
+      APP_TYPE: svcapi
+      BUSINESS_CRITICALITY: high
+      CRITICALITY_SCHEDULE: 24x7
+      SECURITY_AUDIT_TYPE: ${{ github.event.inputs.audit-type }}
+    secrets:
+      GH_ACTIONS_PAT: ${{ secrets.GH_ACTIONS_PAT }}
+      SECURITY_AUDIT_TOKEN: ${{ secrets.SECURITY_AUDIT_TOKEN }}

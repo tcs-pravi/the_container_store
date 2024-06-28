@@ -1,0 +1,32 @@
+{
+  "id" : "2096cf60-f317-4fed-8b7b-c2629833309e",
+  "name" : "cart_retrieve-presented-offer",
+  "request" : {
+    "url" : "/cart/retrieve-presented-offer",
+    "method" : "POST",
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\r\n  \"offerCode\": \"PRESTOC\",\r\n  \"ringStore\": 899\r\n}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\n  \"offer\" : {\n    \"id\" : 5870725,\n    \"offerCode\" : \"PRESTOC\",\n    \"offerName\" : \"20% Off Preston\",\n    \"offerScope\" : \"ORDER\",\n    \"createDateTime\" : null,\n    \"startDateTime\" : \"2023-10-09T00:00:00.000-05:00\",\n    \"endDateTime\" : \"2023-11-21T00:00:00.000-06:00\",\n    \"tracked\" : false,\n    \"trackedOfferCodeId\" : null,\n    \"durationInDays\" : null,\n    \"customerQualifications\" : null,\n    \"orderQualifications\" : null,\n    \"deliveryMethod\" : \"CODE\",\n    \"isSingleUse\" : false,\n    \"isStackable\" : false,\n    \"redemptionCount\" : 0,\n    \"isTrackingCodeExternallyGenerated\" : false,\n    \"isPromotedWhenNotApplied\" : true,\n    \"emailTemplateId\" : null,\n    \"customAdjustmentValue\" : null,\n    \"isTrackedCodeReplaceable\" : false,\n    \"offerTerms\" : \"\",\n    \"alternateExpirationText\" : null,\n    \"promotionalText\" : null,\n    \"purchasingCustomerLoyaltyTier\" : null,\n    \"skuLists\" : {\n      \"skuListMap\" : { }\n    },\n    \"adjustmentBenefits\" : [ {\n      \"id\" : 2366,\n      \"adjustmentType\" : \"PERCENT_OFF\",\n      \"appliesTo\" : \"PRESTON\",\n      \"skus\" : [ ],\n      \"adjustmentValue\" : 20,\n      \"appliesToRule\" : null\n    } ],\n    \"offerStores\" : [ 0, 16, 899 ],\n    \"earnedOfferBenefits\" : [ ],\n    \"buyGetAdjustmentBenefits\" : [ ],\n    \"decliningBalanceBenefits\" : [ ],\n    \"additionalShippingFeeWaivedBenefits\" : [ ],\n    \"feeAdjustmentBenefits\" : [ ],\n    \"qualifiedAdjustmentBenefits\" : [ ],\n    \"redemptionOrders\" : [ ],\n    \"sourceOrders\" : [ ],\n    \"isEmployeeEligible\" : false,\n    \"note\" : null,\n    \"availability\" : \"AUTOMATIC\",\n    \"benefitSummary\" : \"20% off Preston\"\n  },\n  \"validationResults\" : [ {\n    \"severity\" : \"ERROR\",\n    \"code\" : \"OFFER-EXPIRED\",\n    \"message\" : \"Offer PRESTOC is no longer valid; it expired on Nov 20, 2023\"\n  } ]\n}",
+    "headers" : {
+      "Date" : "Tue, 11 Jun 2024 02:25:45 GMT",
+      "Server" : "Apache/2.4.58 (IUS) OpenSSL/1.0.2k-fips mod_jk/1.2.42",
+      "Access-Control-Allow-Origin" : "*",
+      "Referrer-Policy" : "strict-origin-when-cross-origin",
+      "X-Content-Type-Options" : "nosniff",
+      "Strict-Transport-Security" : "max-age=31536000; includeSubDomains; preload",
+      "X-Frame-Options" : "SAMEORIGIN",
+      "X-XSS-Protection" : "1; mode=block",
+      "Keep-Alive" : "timeout=5, max=100",
+      "Content-Type" : "application/json"
+    }
+  },
+  "uuid" : "2096cf60-f317-4fed-8b7b-c2629833309e",
+  "persistent" : true,
+  "insertionIndex" : 6
+}

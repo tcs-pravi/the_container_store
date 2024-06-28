@@ -1,0 +1,209 @@
+import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
+
+buildscript {
+    repositories {
+        maven {
+            url "http://nexus.containerstore.com/nexus/content/repositories/public/"
+            allowInsecureProtocol true
+        }
+        mavenLocal()
+    }
+    dependencies {
+        classpath 'com.containerstore.release:gradle-releaser:7.2.0'
+        classpath 'org.owasp:dependency-check-gradle:8.4.0'
+    }
+}
+
+// New style plugins
+// Run gradle useLatestVersions
+plugins {
+    id 'info.solidsoft.pitest' version '1.9.11'
+    id 'org.springframework.boot' version '2.7.15'
+    id 'io.spring.dependency-management' version '1.1.3'
+    id 'org.openapi.generator' version '7.2.0'
+    id 'jacoco'
+}
+
+apply plugin: 'groovy'
+apply plugin: 'idea'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'org.owasp.dependencycheck'
+apply plugin: 'com.containerstore.release'
+apply plugin: 'info.solidsoft.pitest'
+
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
+
+description = "App exposes APIs for container store services to consume REST endpoints that automates custom space proposal operations"
+
+group "com.containerstore.prestonintegrations.proposal"
+
+repositories {
+    maven {
+        url "http://nexus.containerstore.com/nexus/content/repositories/public/"
+        allowInsecureProtocol true
+    }
+    mavenLocal()
+}
+
+configurations {
+    all*.exclude group: 'log4j', module: 'log4j'
+    all*.exclude group: 'log4j', module: 'apache-log4j-extras'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "com.containerstore.spring.boot.starters:bom:${tcsBootStarterBomVersion}"
+    }
+}
+
+dependencies {
+    // container store dependencies
+    implementation 'com.containerstore.spring.boot.starters:consul'
+    implementation 'com.containerstore.spring.boot.starters:logging'
+    implementation 'com.containerstore.spring.boot.starters:monitoring'
+    implementation 'com.containerstore.spring.boot.starters:rest'
+    implementation 'com.containerstore.spring.boot.starters:vault'
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
+    implementation 'javax.cache:cache-api'
+    implementation 'org.ehcache:ehcache:3.10.8'
+    implementation 'com.google.code.findbugs:jsr305'
+    implementation 'org.json:json'
+    implementation group: 'org.openapitools', name: 'jackson-databind-nullable', version: '0.2.6'
+	compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+    implementation 'com.twoqubed.bob:bob-annotation:1.0.0'
+    implementation 'com.twoqubed.bob:bob-processor:1.0.0'
+    implementation "com.containerstore.sku:sku-services-common:1.13.2.4"
+    implementation 'org.mvel:mvel2:2.5.2.Final'
+    implementation 'org.springframework.cloud:spring-cloud-starter-consul-config'
+    implementation 'org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j'
+    implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.hamcrest:hamcrest-core'
+    testImplementation 'com.google.code.bean-matchers:bean-matchers:0.14'
+    testImplementation 'com.containerstore.common:common-test'
+    testImplementation 'junit:junit'
+    testImplementation 'org.mockito:mockito-core'
+    testImplementation 'com.google.guava:guava'
+    testImplementation 'org.spockframework:spock-core'
+    testImplementation 'org.spockframework:spock-spring'
+    testImplementation 'cglib:cglib-nodep'
+    testImplementation 'org.springframework.cloud:spring-cloud-contract-wiremock'
+
+    runtimeOnly 'org.postgresql:postgresql'
+
+    //Immutables
+    annotationProcessor 'org.immutables:value'
+    compileOnly group: 'org.immutables', name: 'value', classifier: 'annotations'
+    implementation 'com.containerstore.common:common-immutables'
+}
+
+task generateClosetProProposalApiStub(type: GenerateTask) {
+    generatorName = "spring"
+    inputSpec = "${rootDir}/api-spec/proposal-service-api-closetpro-v1-contract.yml"
+    outputDir = "${rootDir}/build/generated/api"
+    apiPackage = "com.containerstore.prestonintegrations.proposal.controllers"
+    modelPackage = "com.containerstore.prestonintegrations.proposal.models"
+    configOptions = [interfaceOnly: 'true',
+                     library      : 'spring-boot',
+                     skipDefaultInterface : 'true']
+    additionalProperties = [dateLibrary      : "java8",
+                            useBeanValidation: true]
+    globalProperties = [
+            apis      : '',
+            models : '',
+            apiTests : 'true',
+            modelTests : 'true'
+    ]
+}
+
+task generateSalesForceWebhookApiStub(type: GenerateTask) {
+    generatorName = "spring"
+    inputSpec = "${rootDir}/api-spec/proposal-service-salesforce-hooks-v1-contract.yml"
+    outputDir = "${rootDir}/build/generated/hook"
+    apiPackage = "com.containerstore.prestonintegrations.proposal.salesforce.hooks"
+    modelPackage = "com.containerstore.prestonintegrations.proposal.salesforce.models"
+    configOptions = [interfaceOnly: 'true',
+                     library      : 'spring-boot',
+                     skipDefaultInterface : 'true']
+    additionalProperties = [dateLibrary      : "java8",
+                            useBeanValidation: true]
+    globalProperties = [
+            apis      : '',
+            models : '',
+            apiTests : 'true',
+            modelTests : 'true'
+    ]
+}
+
+sourceSets.main.java.srcDir "${rootDir}/build/generated"
+
+compileJava.dependsOn tasks.generateClosetProProposalApiStub , tasks.generateSalesForceWebhookApiStub
+
+
+test {
+    useJUnitPlatform()
+    systemProperty "deployment.environment", "dev"
+    systemProperty "deployment.stack", "preview"
+}
+
+pitest {
+    junit5PluginVersion = '1.0.0'
+    jvmArgs = ['-Ddeployment.environment=dev', '-Ddeployment.stack=preview']
+    useClasspathFile = System.getProperty('os.name').toLowerCase(Locale.ENGLISH).contains('windows')
+    excludedClasses = [
+            'com.containerstore.prestonintegrations.proposal.cache.*',
+            'com.containerstore.prestonintegrations.proposal.salesforce.models.*',
+            'com.containerstore.prestonintegrations.proposal.salesforce.hooks.*',
+            'com.containerstore.prestonintegrations.proposal.controllers.*',
+            'com.containerstore.prestonintegrations.proposal.models.*',
+            'com.containerstore.prestonintegrations.proposal.configuration.health.*',
+            'com.containerstore.prestonintegrations.proposal.offer.feign.*',
+            'com.containerstore.prestonintegrations.proposal.tax.enums.*',
+    ]
+}
+
+bootRun {
+    systemProperty "deployment.environment", "dev"
+    systemProperty "deployment.stack", "preview"
+    systemProperty "app.name", "preston-integrations-proposal-services"
+    systemProperty "app.version", "0.0.0."
+    systemProperty "hostname", "localhost"
+}
+
+sonarqube {
+    properties {
+        property "sonar.exclusions", "**/src/main/java/com/containerstore/offer/**/*.java, **src/main/java/com/containerstore/common/**/*.java"
+        property 'sonar.issue.ignore.multicriteria','e1,e2'
+
+        property 'sonar.issue.ignore.multicriteria.e1.ruleKey','java:S103'
+        property 'sonar.issue.ignore.multicriteria.e1.resourceKey','**/src/main/java/com/containerstore/**'
+
+        property 'sonar.issue.ignore.multicriteria.e2.ruleKey','java:S121'
+        property 'sonar.issue.ignore.multicriteria.e2.resourceKey','**/src/main/java/com/containerstore/**'
+    }
+}
+
+def isNonStable = { String version ->
+    def stableKeyword = ['RELEASE', 'FINAL', 'GA'].any { it -> version.toUpperCase().contains(it) }
+    def regex = /^[0-9,.v-]+(-r)?(-jre)?(-groovy-[0-9.]+)?$/
+    return !stableKeyword && !(version ==~ regex)
+}
+
+def rejectSpring3 = { candidate ->
+    def regex = /^2\.[0-9\.]+$/
+    return candidate.group == 'org.springframework.boot' && !candidate.version.startsWith("2.")
+}
+
+tasks.named("dependencyUpdates").configure {
+    rejectVersionIf {
+        rejectSpring3(it.candidate) || (isNonStable(it.candidate.version) && !isNonStable(it.currentVersion))
+    }
+}

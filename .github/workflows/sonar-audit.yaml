@@ -1,0 +1,31 @@
+name: sonar-audit
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push events for the master branch
+  push:
+    branches:
+      - 'master'
+  # Triggers the workflow on pull requests for the master branch
+  pull_request:
+    branches:
+      - 'master'
+  # Allows this workflow to be ran manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  call-workflow:
+    uses: the-container-store/github-actions-scripts/.github/workflows/sonar-audit.yml@master
+    with:
+      APP_ACCESS: internal
+      APP_BUILD_TYPE: gradle17
+      APP_NAME: preston-integrations-proposal-services
+      APP_PROJECT: preston-integrations
+      APP_TEAM: salesforce
+      APP_TYPE: svcapi
+      BUSINESS_CRITICALITY: high
+      CRITICALITY_SCHEDULE: 24x7
+      SONAR_AUDIT_OPTS: test jacocoTestReport
+    secrets:
+      GH_ACTIONS_PAT: ${{ secrets.GH_ACTIONS_PAT }}
+      SONAR_CLOUD_AUTH_TOKEN: ${{ secrets.SONAR_CLOUD_AUTH_TOKEN }}

@@ -1,0 +1,27 @@
+{
+  "id" : "42d13907-8df3-4e28-af14-0032c9f0d9ac",
+  "name" : "preston-proposal-integration_cases",
+  "request" : {
+    "url" : "/preston-proposal-integration/cases?oppId=0067e00000QNXD2AA",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "[]",
+    "headers" : {
+        "Date" : "Tue, 28 May 2024 14:58:29 GMT",
+        "Server" : "Apache/2.4.46 (IUS) OpenSSL/1.0.2k-fips mod_jk/1.2.42",
+        "Access-Control-Allow-Origin" : "*",
+        "Referrer-Policy" : "strict-origin-when-cross-origin",
+        "X-Content-Type-Options" : "nosniff",
+        "Strict-Transport-Security" : "max-age=31536000; includeSubDomains; preload",
+        "X-Frame-Options" : "SAMEORIGIN",
+        "X-XSS-Protection" : "1; mode=block",
+        "Keep-Alive" : "timeout=5, max=100",
+        "Content-Type" : "application/json"
+    }
+  },
+  "uuid" : "42d13907-8df3-4e28-af14-0032c9f0d9ac",
+  "persistent" : true,
+  "insertionIndex" : 4
+}

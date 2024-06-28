@@ -1,0 +1,778 @@
+openapi: 3.0.3
+info:
+    title: Proposal Service API
+    description: 'Exposes rest endpoints to get fee quotes for preston custom closets'
+    version: 1.5.2
+servers:
+    -   url: https://www.tstven.containerstore.com/preston-integrations/proposal-service/apps/closetpro/api
+        description: Test Ven - Public access
+    -   url: https://www.containerstore.com/preston-integrations/proposal-service/apps/closetpro/api
+        description: Prod
+
+security:
+    -   basicAuth: [ ]
+
+tags:
+    -   name: proposals
+        description: APIs to work with closetpro proposal within TCS services
+paths:
+    /v1/proposal/fees/get-fees:
+        post:
+            tags:
+                - proposals
+            summary: 'Consumed by services to get proposal fees'
+            description: 'Consumed by services to get proposal fees'
+            operationId: 'calculateProposalFee'
+            requestBody:
+                description: 'Produces taxable and non-taxable fees for preston custom spaces quotes'
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ProposalFeeRequest'
+                        example:
+                            opportunityId: 94e6b22ea-ec9a-40fc-a247-b90b2db7fea4
+                            customerAddress:
+                                address1: Some Apartment 3
+                                address2: That building, This Block
+                                city: Brooklyn
+                                state: NY
+                                zipCode: '10328'
+                            storeAddress:
+                                address1: Staten Island
+                                address2: 283 Platinum Ave
+                                city: Staten Island
+                                state: NY
+                                zipCode: '10314'
+                            spaces:
+                                -   spaceId: 9c96c0e9-d7aa-4541-a473-8acd201ed365
+                                    retailPrice: 8000.12
+                                -   spaceId: 9c96c0e9-d7aa-4541-a473-8acd201ed366
+                                    retailPrice: 1000.21
+                                -   spaceId: 9c96c0e9-d7aa-4541-a473-8acd201ed367
+                                    retailPrice: 1000.12
+                required: true
+            responses:
+                '200':
+                    description: Successful operation
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProposalFeeResponse'
+                            example:
+                                opportunityId: 94e6b22ea-ec9a-40fc-a247-b90b2db7fea4
+                                taxableFees:
+                                    headerFees:
+                                        -   name: FREIGHT_FEE
+                                            description: 'Calculated Freight fees for proposal id: 4e6b22ea-ec9a-40fc-a247-b90b2db7fea0'
+                                            fee: 2000
+                                            percentage:
+                                    lineFees:
+                                        -   spaceId: 9c96c0e9-d7aa-4541-a473-8acd201ed365
+                                            name: INSTALLATION_FEE
+                                            description: 'Installation fee for space 9c96c0e9-d7aa-4541-a473-8acd201ed365 '
+                                            fee: 3320.15
+                                            percentage:
+                                        -   spaceId: 9c96c0e9-d7aa-4541-a473-8acd201ed366
+                                            name: INSTALLATION_FEE
+                                            description: 'Installation fee for space 9c96c0e9-d7aa-4541-a473-8acd201ed366 '
+                                            fee: 415.02
+                                            percentage:
+                                        -   spaceId: 9c96c0e9-d7aa-4541-a473-8acd201ed367
+                                            name: INSTALLATION_FEE
+                                            description: 'Installation fee for space 9c96c0e9-d7aa-4541-a473-8acd201ed367 '
+                                            fee: 415.02
+                                            percentage:
+                                nonTaxableFee:
+                                    headerFees:
+                                        -   name: ADDITIONAL_SERVICES_TRANSPORTATION
+                                            description: 'Calculated additional service fees for proposal id: 4e6b22ea-ec9a-40fc-a247-b90b2db7fea0'
+                                            fee: 2000
+                                            percentage:
+                                    lineFees:
+                                        -   spaceId: 9c96c0e9-d7aa-4541-a473-8acd201ed365
+                                            name: ADDITIONAL_SERVICES_DEMOLITION
+                                            description: 'Demolition fee for space 9c96c0e9-d7aa-4541-a473-8acd201ed365 '
+                                            fee: 3320.15
+                                            percentage:
+                                        -   spaceId: 9c96c0e9-d7aa-4541-a473-8acd201ed366
+                                            name: ADDITIONAL_SERVICES_DEMOLITION
+                                            description: 'Demolition fee for space 9c96c0e9-d7aa-4541-a473-8acd201ed366 '
+                                            fee: 415.02
+                                            percentage:
+                                        -   spaceId: 9c96c0e9-d7aa-4541-a473-8acd201ed367
+                                            name: ADDITIONAL_SERVICES_DEMOLITION
+                                            description: 'Demolition fee for space 9c96c0e9-d7aa-4541-a473-8acd201ed367 '
+                                            fee: 415.02
+                                            percentage:
+                                tax:
+                                    -   taxName: SALES_TAX
+                                        amount: 1500.00
+                '400':
+                    description: Bad Request/Invalid input
+                '500':
+                    description: Internal server error
+
+    /v2/proposal/fees/get-fees:
+        post:
+            tags:
+                - proposals
+            summary: 'Consumed by services to get proposal fees'
+            description: 'Consumed by services to get proposal fees'
+            operationId: 'calculateProposalFeeV2'
+            requestBody:
+                description: 'Produces taxable and non-taxable fees for preston custom spaces quotes'
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ProposalFeeRequestV2'
+                        example:
+                            opportunityId: 94e6b22ea-ec9a-40fc-a247-b90b2db7fea4
+                            customerAddress:
+                                address1: Some Apartment 3
+                                address2: That building, This Block
+                                city: Brooklyn
+                                state: NY
+                                zipCode: '10328'
+                            spaces:
+                                -   spaceId: 9c96c0e9-d7aa-4541-a473-8acd201ed365
+                                    retailPrice: 8000.12
+                                -   spaceId: 9c96c0e9-d7aa-4541-a473-8acd201ed366
+                                    retailPrice: 1000.21
+                                -   spaceId: 9c96c0e9-d7aa-4541-a473-8acd201ed367
+                                    retailPrice: 1000.12
+                            customFees:
+                                -   name: Additional Freight
+                                    fee: 2000
+                                    percentage: null
+                                -   name: Additional Installation
+                                    fee: 2000
+                                    percentage: null
+                            offers:
+                                -   offerCode: PRESTBP
+                                -   offerCode: PRESTVIP
+                required: true
+            responses:
+                '200':
+                    description: Successful operation
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProposalFeeResponseV2'
+                            example:
+                                opportunityId: 94e6b22ea-ec9a-40fc-a247-b90b2db7fea4
+                                fees:
+                                    headerFees:
+                                        -   name: FREIGHT_FEE
+                                            description: 'Calculated Freight fees for proposal id: 4e6b22ea-ec9a-40fc-a247-b90b2db7fea0'
+                                            fee: 2000
+                                            percentage:
+                                        -   name: ADDITIONAL_SERVICES_TRANSPORTATION
+                                            description: 'Calculated additional service fees for proposal id: 4e6b22ea-ec9a-40fc-a247-b90b2db7fea0'
+                                            fee: 2000
+                                            percentage:
+                                    lineFees:
+                                        -   spaceId: 9c96c0e9-d7aa-4541-a473-8acd201ed365
+                                            name: INSTALLATION_FEE
+                                            description: 'Installation fee for space 9c96c0e9-d7aa-4541-a473-8acd201ed365 '
+                                            fee: 3320.15
+                                            percentage:
+                                        -   spaceId: 9c96c0e9-d7aa-4541-a473-8acd201ed366
+                                            name: INSTALLATION_FEE
+                                            description: 'Installation fee for space 9c96c0e9-d7aa-4541-a473-8acd201ed366 '
+                                            fee: 415.02
+                                            percentage:
+                                        -   spaceId: 9c96c0e9-d7aa-4541-a473-8acd201ed367
+                                            name: INSTALLATION_FEE
+                                            description: 'Installation fee for space 9c96c0e9-d7aa-4541-a473-8acd201ed367 '
+                                            fee: 415.02
+                                            percentage:
+                                        -   spaceId: 9c96c0e9-d7aa-4541-a473-8acd201ed365
+                                            name: ADDITIONAL_SERVICES_DEMOLITION
+                                            description: 'Demolition fee for space 9c96c0e9-d7aa-4541-a473-8acd201ed365 '
+                                            fee: 3320.15
+                                            percentage:
+                                        -   spaceId: 9c96c0e9-d7aa-4541-a473-8acd201ed366
+                                            name: ADDITIONAL_SERVICES_DEMOLITION
+                                            description: 'Demolition fee for space 9c96c0e9-d7aa-4541-a473-8acd201ed366 '
+                                            fee: 415.02
+                                            percentage:
+                                        -   spaceId: 9c96c0e9-d7aa-4541-a473-8acd201ed367
+                                            name: ADDITIONAL_SERVICES_DEMOLITION
+                                            description: 'Demolition fee for space 9c96c0e9-d7aa-4541-a473-8acd201ed367 '
+                                            fee: 415.02
+                                            percentage:
+                                tax:
+                                    -   taxName: SALES_TAX
+                                        amount: 1500.00
+                                customFees:
+                                    -   name: Additional Freight
+                                        fee: 2000
+                                        percentage: null
+                                    -   name: Additional Installation
+                                        fee: 2000
+                                        percentage: null
+                                offers:
+                                    -   offerCode: PRESTBP
+                                        offerName: Preston Backpocket
+                                        adjustmentValue: 500.00
+                                        adjustmentType: AMOUNT_OFF
+                                        amountOff: 500.00
+                                        hasApplied: false
+                                        hasError: true
+                                        errorMessage: Non Stackable Offer
+                                    -   offerCode: PRESTVIP
+                                        offerName: Preston VIP Offer
+                                        adjustmentValue: 50.00
+                                        adjustmentType: PERCENT_OFF
+                                        amountOff: 1500.00
+                                        hasApplied: true
+                                        hasError: false
+
+                '400':
+                    description: Bad Request/Invalid input
+                '500':
+                    description: Internal server error
+
+    /v1/proposals/salesforce/send-proposal:
+        post:
+            tags:
+                - proposals
+            summary: On saving proposal in closet-pro, send proposal information to salesforce
+            operationId: sendProposalToSalesforce
+            requestBody:
+                content:
+                    application/json:
+                        example:
+                            opportunityId: 0064w00001991VfAAI
+                            proposalId: '5647372'
+                            spaces:
+                                -   spaceId: '7724244'
+                                    retailPrice: 8000.12
+                                    sellingPrice: 7500
+                                    color: RED
+                                    finish: Oak
+                                    spaceFees:
+                                        -   name: INSTALLATION_FEE
+                                            fee: 3320.15
+                                        -   name: ADDITIONAL_SERVICES_DEMOLITION
+                                            fee: 200.14
+                                        -   name: FREIGHT_FEE
+                                            fee: 415.02
+                            fees:
+                                headerFees:
+                                    -   name: ADDITIONAL_SERVICES_FEE
+                                        fee: 500
+                                    -   name: ADDITIONAL_SERVICES_TRANSPORTATION
+                                        fee: 300
+                            tax:
+                                -   taxName: SALES_TAX
+                                    amount: 1500
+                            customFees:
+                                -   name: Discount1
+                                    fee: -200
+                                    percentage:
+                            offers:
+                                -   offerCode: PRESTBP
+                                    amountOff: 500
+                                -   offerCode: PRESTVIP
+                                    amountOff: 1500
+                            pdfUrl: https://tcstest.closetprosoftware.com/pdf/5647372
+                        schema:
+                            $ref: '#/components/schemas/SaveProposalRequest'
+            responses:
+                '200':
+                    description: event created
+                '400':
+                    description: Bad Request/Invalid input
+                '500':
+                    description: Internal server error
+
+    /v1/proposals/events/download/pdf/{opportunity-id}/{proposal-id}:
+        post:
+            tags:
+                - proposals
+            summary: Trigger an event to download PDF from closetpro and send it to salesforce
+            operationId: eventToSendProposalPdf
+            parameters:
+                - in: path
+                  name: opportunity-id
+                  schema:
+                      type: string
+                  required: true
+                - in: path
+                  name: proposal-id
+                  schema:
+                      type: string
+                  required: true
+            responses:
+                '200':
+                    description: success
+                '404':
+                    description: pdf/proposal not found
+                '500':
+                    description: internal server error
+
+
+
+components:
+    securitySchemes:
+        basicAuth:
+            type: http
+            scheme: basic
+    schemas:
+        SaveProposalRequest:
+            required:
+                - spaces
+                - opportunityId
+                - proposalId
+            type: object
+            properties:
+                opportunityId:
+                    type: string
+                    minLength: 1
+                proposalId:
+                    type: string
+                    minLength: 1
+                spaces:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/ProposalSpaceRequest'
+                    required:
+                        - spaceId
+                        - retailPrice
+                    minItems: 1
+                fees:
+                    type:
+                        object
+                    properties:
+                        headerFees:
+                            type: array
+                            items:
+                                properties:
+                                    name:
+                                        type: string
+                                    fee:
+                                        type: number
+                tax:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/tax'
+                offers:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/offer'
+                customFees:
+                    type: array
+                    items:
+                        type: object
+                        properties:
+                            name:
+                                type: string
+                            fee:
+                                type: number
+                            percentage:
+                                type: number
+                pdfUrl:
+                    type: string
+
+        SalesforceSaveProposalRequest:
+            required:
+                - spaces
+                - opportunityId
+                - proposalId
+            type: object
+            properties:
+                opportunityId:
+                    type: string
+                    minLength: 1
+                proposalId:
+                    type: string
+                    minLength: 1
+                spaces:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/ProposalSpaceRequest'
+                    required:
+                        - spaceId
+                        - retailPrice
+                    minItems: 1
+                    uniqueItems: true
+                tax:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/tax'
+                offers:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/offer'
+
+
+        ProposalFeeRequest:
+            required:
+                - customerAddress
+                - spaces
+                - opportunityId
+            type: object
+            properties:
+                opportunityId:
+                    type: string
+                    minLength: 1
+                customerAddress:
+                    type: object
+                    properties:
+                        address1:
+                            type: string
+                        address2:
+                            type: string
+                        city:
+                            type: string
+                            minLength: 1
+                        state:
+                            type: string
+                            minLength: 1
+                            maxLength: 2
+                        zipCode:
+                            type: string
+                            minLength: 1
+                    required:
+                        - state
+                storeAddress:
+                    type: object
+                    properties:
+                        address1:
+                            type: string
+                        address2:
+                            type: string
+                        city:
+                            type: string
+                        state:
+                            type: string
+                            minLength: 1
+                            maxLength: 2
+                        zipCode:
+                            type: string
+                            minLength: 1
+                spaces:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/space'
+                    required:
+                        - spaceId
+                        - retailPrice
+                    minItems: 1
+
+
+        ProposalFeeResponse:
+            type: object
+            properties:
+                opportunityId:
+                    type: string
+                    minLength: 1
+                taxableFees:
+                    type:
+                        object
+                    properties:
+                        HeaderFees:
+                            type: array
+                            items:
+                                properties:
+                                    name:
+                                        type: string
+                                    description:
+                                        type: string
+                                    fee:
+                                        type: number
+                                    percentage:
+                                        type: number
+                            required:
+                                - name
+                                - description
+                                - fee
+                        LineFees:
+                            type: array
+                            items:
+                                properties:
+                                    spaceId:
+                                        type: string
+                                    name:
+                                        type: string
+                                    description:
+                                        type: string
+                                    fee:
+                                        type: number
+                                    percentage:
+                                        type: number
+                            required:
+                                - spaceId
+                                - name
+                                - description
+                                - fee
+                nonTaxableFee:
+                    type:
+                        object
+                    properties:
+                        headerFees:
+                            type: array
+                            items:
+                                properties:
+                                    name:
+                                        type: string
+                                    description:
+                                        type: string
+                                    fee:
+                                        type: number
+                                    percentage:
+                                        type: number
+                            required:
+                                - name
+                                - description
+                                - fee
+                        lineFees:
+                            type: array
+                            items:
+                                properties:
+                                    spaceId:
+                                        type: string
+                                    name:
+                                        type: string
+                                    description:
+                                        type: string
+                                    fee:
+                                        type: number
+                                    percentage:
+                                        type: number
+                            required:
+                                - spaceId
+                                - name
+                                - description
+                                - fee
+                tax:
+                    type:
+                        array
+                    items:
+                        properties:
+                            taxName:
+                                type:
+                                    string
+                            amount:
+                                type: number
+
+        ProposalFeeRequestV2:
+            required:
+                - customerAddress
+                - spaces
+                - opportunityId
+            type: object
+            properties:
+                opportunityId:
+                    type: string
+                    minLength: 1
+                customerAddress:
+                    $ref: '#/components/schemas/customerAddress'
+                spaces:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/space'
+                    required:
+                        - spaceId
+                        - retailPrice
+                    minItems: 1
+                customFees:
+                    type: array
+                    items:
+                        type: object
+                        properties:
+                            name:
+                                type: string
+                            fee:
+                                type: number
+                            percentage:
+                                type: number
+                offers:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/offer'
+                    uniqueItems: true
+
+        ProposalFeeResponseV2:
+            type: object
+            properties:
+                opportunityId:
+                    type: string
+                    minLength: 1
+                fees:
+                    type:
+                        object
+                    properties:
+                        HeaderFees:
+                            type: array
+                            items:
+                                properties:
+                                    name:
+                                        type: string
+                                    description:
+                                        type: string
+                                    fee:
+                                        type: number
+                                    percentage:
+                                        type: number
+                            required:
+                                - name
+                                - description
+                                - fee
+                        LineFees:
+                            type: array
+                            items:
+                                properties:
+                                    spaceId:
+                                        type: string
+                                    name:
+                                        type: string
+                                    description:
+                                        type: string
+                                    fee:
+                                        type: number
+                                    percentage:
+                                        type: number
+                            required:
+                                - spaceId
+                                - name
+                                - description
+                                - fee
+                customFees:
+                    type: array
+                    items:
+                        type: object
+                        properties:
+                            name:
+                                type: string
+                            fee:
+                                type: number
+                            percentage:
+                                type: number
+                offers:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/offer'
+                    uniqueItems: true
+                tax:
+                    type:
+                        array
+                    items:
+                        properties:
+                            taxName:
+                                type:
+                                    string
+                            amount:
+                                type: number
+                            hasError:
+                                type: boolean
+                            errorMessage:
+                                type: string
+
+        offer:
+            type: object
+            required:
+                - offerCode
+            properties:
+                offerCode:
+                    type: string
+                    minLength: 1
+                offerName:
+                    type: string
+                adjustmentValue:
+                    type: number
+                adjustmentType:
+                    type: string
+                    enum: [ 'PERCENT_OFF','AMOUNT_OFF' ]
+                amountOff:
+                    type: number
+                hasApplied:
+                    type: boolean
+                hasError:
+                    type: boolean
+                errorMessage:
+                    type: string
+
+        customerAddress:
+            type: object
+            properties:
+                address1:
+                    type: string
+                address2:
+                    type: string
+                city:
+                    type: string
+                    minLength: 1
+                state:
+                    type: string
+                    minLength: 1
+                    maxLength: 2
+                zipCode:
+                    type: string
+                    minLength: 1
+            required:
+                - state
+                - city
+                - zipCode
+
+        space:
+            type: object
+            properties:
+                spaceId:
+                    type: string
+                    minLength: 1
+                retailPrice:
+                    type: number
+                    minimum: 1
+                sellingPrice:
+                    type: number
+                    minimum: 1
+            required:
+                - spaceId
+                - retailPrice
+
+        tax:
+            type:
+                object
+            properties:
+                taxName:
+                    type:
+                        string
+                amount:
+                    type: number
+                hasError:
+                    type: boolean
+                errorMessage:
+                    type: string
+
+        ProposalSpaceRequest:
+            type: object
+            required:
+                - spaceId
+                - retailPrice
+                - color
+                - finish
+            properties:
+                spaceId:
+                    type: string
+                    minLength: 1
+                retailPrice:
+                    type: number
+                    minimum: 1
+                sellingPrice:
+                    type: number
+                color:
+                    type: string
+                finish:
+                    type: string
+                spaceFees:
+                    type: array
+                    items:
+                        properties:
+                            name:
+                                type: string
+                                minLength: 1
+                            fee:
+                                type: number
+                                minimum: 1

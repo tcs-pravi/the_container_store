@@ -1,0 +1,32 @@
+{
+  "id" : "4caf5d54-7bb7-479c-b938-f9e7b9730f26",
+  "name" : "cart_retrieve-presented-offer",
+  "request" : {
+    "url" : "/cart/retrieve-presented-offer",
+    "method" : "POST",
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\r\n  \"offerCode\": \"PRSTNEXP\",\r\n  \"ringStore\": 899\r\n}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\n  \"offer\" : {\n    \"id\" : 2549353,\n    \"offerCode\" : \"PRSTNEXP\",\n    \"offerName\" : \"20% Off Preston for Experts\",\n    \"offerScope\" : \"ORDER\",\n    \"createDateTime\" : null,\n    \"startDateTime\" : \"2022-02-25T12:15:00.000-06:00\",\n    \"endDateTime\" : null,\n    \"tracked\" : false,\n    \"trackedOfferCodeId\" : null,\n    \"durationInDays\" : 365,\n    \"customerQualifications\" : \"customer.isLoyaltyMemeber && customer.loyaltyTier == 300\",\n    \"orderQualifications\" : null,\n    \"deliveryMethod\" : \"CODE\",\n    \"isSingleUse\" : false,\n    \"isStackable\" : false,\n    \"redemptionCount\" : 0,\n    \"isTrackingCodeExternallyGenerated\" : false,\n    \"isPromotedWhenNotApplied\" : true,\n    \"emailTemplateId\" : null,\n    \"customAdjustmentValue\" : null,\n    \"isTrackedCodeReplaceable\" : false,\n    \"offerTerms\" : \"\",\n    \"alternateExpirationText\" : null,\n    \"promotionalText\" : null,\n    \"purchasingCustomerLoyaltyTier\" : null,\n    \"skuLists\" : {\n      \"skuListMap\" : { }\n    },\n    \"adjustmentBenefits\" : [ {\n      \"id\" : 1770,\n      \"adjustmentType\" : \"PERCENT_OFF\",\n      \"appliesTo\" : \"PRESTON\",\n      \"skus\" : [ ],\n      \"adjustmentValue\" : 20,\n      \"appliesToRule\" : null\n    } ],\n    \"offerStores\" : [ 0, 16, 899 ],\n    \"earnedOfferBenefits\" : [ ],\n    \"buyGetAdjustmentBenefits\" : [ ],\n    \"decliningBalanceBenefits\" : [ ],\n    \"additionalShippingFeeWaivedBenefits\" : [ ],\n    \"feeAdjustmentBenefits\" : [ ],\n    \"qualifiedAdjustmentBenefits\" : [ ],\n    \"redemptionOrders\" : [ ],\n    \"sourceOrders\" : [ ],\n    \"isEmployeeEligible\" : false,\n    \"note\" : null,\n    \"availability\" : \"AUTOMATIC\",\n    \"benefitSummary\" : \"20% off Preston\"\n  },\n  \"validationResults\" : [ ]\n}",
+    "headers" : {
+      "Date" : "Tue, 28 May 2024 09:47:29 GMT",
+      "Server" : "Apache/2.4.46 (IUS) OpenSSL/1.0.2k-fips mod_jk/1.2.42",
+      "Access-Control-Allow-Origin" : "*",
+      "Referrer-Policy" : "strict-origin-when-cross-origin",
+      "X-Content-Type-Options" : "nosniff",
+      "Strict-Transport-Security" : "max-age=31536000; includeSubDomains; preload",
+      "X-Frame-Options" : "SAMEORIGIN",
+      "X-XSS-Protection" : "1; mode=block",
+      "Keep-Alive" : "timeout=5, max=100",
+      "Content-Type" : "application/json"
+    }
+  },
+  "uuid" : "4caf5d54-7bb7-479c-b938-f9e7b9730f26",
+  "persistent" : true,
+  "insertionIndex" : 5
+}

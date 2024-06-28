@@ -1,0 +1,95 @@
+spring:
+    datasource:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: org.postgresql.Driver
+        url: jdbc:postgresql://localhost:5432/postgres
+        username: test-user
+        password: nopassword
+        minimum-idle: 1
+        maximum-pool-size: 1
+        hikari:
+            pool-name: preston
+            connection-test-query: SELECT 1
+            schema: proposal
+        continue-on-error: true
+    jpa:
+        properties:
+            hibernate:
+                default_schema: proposal
+                dialect: org.hibernate.dialect.PostgreSQLDialect
+    servlet:
+        multipart:
+            max-file-size: -1
+    cache:
+        jcache:
+            config: classpath:ehcache.xml
+    cloud:
+        config:
+            import-check:
+                enabled: false
+localhost:
+    placeholder: http://localhost:8080
+
+feign:
+    circuitbreaker:
+        enabled: false
+        alphanumeric-ids:
+            enabled: true
+    client:
+        config:
+            default:
+                default-request-headers:
+                    User-Agent:
+                        - test-user-agent
+                connectTimeout: 2000
+                readTimeout: 2000
+                loggerLevel: full
+            enterpriseTaxService:
+                connectTimeout: 2000
+                readTimeout: 2000
+                baseUrl: ${localhost.placeholder}
+                calculate-tax-url: /calculateTax
+            offerService:
+                connectTimeout: 2000
+                readTimeout: 2000
+                error-decoder: com.containerstore.prestonintegrations.proposal.offer.feign.OfferServiceErrorDecoder
+                baseUrl: ${localhost.placeholder}
+                get-presented-offer: /cart/retrieve-presented-offer
+                apply-offer: /offers/apply
+            salesforceService:
+                connectTimeout: 2000
+                readTimeout: 10000
+                error-decoder: com.containerstore.prestonintegrations.proposal.salesforceintegration.feign.SalesforceServiceErrorDecoder
+                baseUrl: ${localhost.placeholder}
+                save-proposal-fee: /preston-proposal-integration/save-proposal
+                cases: /preston-proposal-integration/cases
+                upload-pdf: /opportunities/{id}/attachments/{fileName}
+            closetproService:
+                connectTimeout: 2000
+                readTimeout: 10000
+                basicAuth:
+                    username: username
+                    password: password
+                baseUrl: ${localhost.placeholder}
+                retrieve-pdf-by-propasal: /fileretrievalservice.aspx
+
+resilience4j:
+    circuitbreaker:
+        configs:
+            default:
+                registerHealthIndicator: true
+    timelimiter:
+        configs:
+            default:
+                timeoutDuration: 5s
+    retry:
+        configs:
+            default:
+                registerHealthIndicator: true
+                maxAttempts: 3
+                waitDuration: 1000
+        instances:
+            enterpriseTaxService:
+                baseConfig: default
+                retryExceptions:
+                    - feign.RetryableException

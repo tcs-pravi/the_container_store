@@ -1,0 +1,129 @@
+spring:
+    datasource:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: org.postgresql.Driver
+        url: jdbc:postgresql://${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}
+        username: ${DATABASE_USERNAME}
+        password: ${DATABASE_PASSWORD}
+        minimum-idle: ${DATABASE_MINIMUM_IDLE:1}
+        maximum-pool-size: ${DATABASE_MAXIMUM_POOL_SIZE:5}
+        hikari:
+            pool-name: preston
+            connection-test-query: SELECT 1
+            schema: proposal
+        continue-on-error: true
+    jpa:
+        properties:
+            hibernate:
+                default_schema: proposal
+                dialect: org.hibernate.dialect.PostgreSQLDialect
+    servlet:
+        multipart:
+            max-file-size: -1
+    cache:
+        jcache:
+            config: classpath:ehcache.xml
+
+logback:
+    access:
+        enabled: ${ACCESS_LOGS_ENABLED:false}
+springdoc:
+    api-docs:
+        enabled: ${SWAGGER_ENABLED:false}
+
+logging:
+    pattern:
+        console: "%d %-5level %logger : %msg%n"
+    level:
+        com.containerstore.prestonintegrations.proposal.tax.feign.EnterpriseTaxServiceClient: TRACE
+        com.containerstore.prestonintegrations.proposal.offer.feign.OfferServiceClient: TRACE
+        com.containerstore.prestonintegrations.proposal.salesforceintegration.feign.SalesforceServiceClient: TRACE
+        com.containerstore.prestonintegrations.proposal.closetpro.feign.ClosetproServiceClient: TRACE
+
+feign:
+    circuitbreaker:
+        enabled: false
+        alphanumeric-ids:
+            enabled: true
+    client:
+        refresh-enabled: true
+        config:
+            default:
+                default-request-headers:
+                    User-Agent:
+                        - ${tcs-useragent}
+                connectTimeout: 2000
+                readTimeout: 2000
+                loggerLevel: full
+            enterpriseTaxService:
+                connectTimeout: 2000
+                readTimeout: 5000
+                baseUrl: ${ENTERPRISE_TAX_SERVICE_HOST}
+                calculate-tax-url: /calculateTax
+            offerService:
+                error-decoder: com.containerstore.prestonintegrations.proposal.offer.feign.OfferServiceErrorDecoder
+                baseUrl: ${OFFER_SERVICE_HOST}
+                get-presented-offer: /cart/retrieve-presented-offer
+                apply-offer: /offers/apply
+            salesforceService:
+                connectTimeout: 2000
+                readTimeout: 10000
+                error-decoder: com.containerstore.prestonintegrations.proposal.salesforceintegration.feign.SalesforceServiceErrorDecoder
+                baseUrl: ${SALESFORCE_SERVICE_HOST}
+                save-proposal-fee: /preston-proposal-integration/save-proposal
+                cases: /preston-proposal-integration/cases
+                upload-pdf: /opportunities/{id}/attachments/{fileName}
+            closetproService:
+                connectTimeout: 2000
+                readTimeout: 10000
+                error-decoder: com.containerstore.prestonintegrations.proposal.closetpro.feign.ClosetproServiceErrorDecoder
+                basicAuth:
+                    username: ${CLOSETPRO_BASIC_USERNAME}
+                    password: ${CLOSETPRO_BASIC_PASSWORD}
+                baseUrl: ${CLOSET_PRO_HOST}
+                retrieve-pdf-by-propasal: /fileretrievalservice.aspx
+
+resilience4j:
+    circuitbreaker:
+        configs:
+            default:
+                registerHealthIndicator: true
+    timelimiter:
+        configs:
+            default:
+                timeoutDuration: 5s
+    retry:
+        configs:
+            default:
+                registerHealthIndicator: true
+                maxAttempts: 3
+                waitDuration: 1000
+        instances:
+            enterpriseTaxService:
+                baseConfig: default
+                retryExceptions:
+                    - feign.RetryableException
+
+management:
+    endpoint:
+        health:
+            show-details: always
+
+    endpoints:
+        web:
+            exposure:
+                include: health
+    health:
+        retries:
+            enabled: true
+
+tcs-useragent: ${app.name}_${app.version}_${hostname}
+
+
+health-checks-config:
+    services:
+        - ${OFFER_SERVICE_HOST}/about?${spring.application.name}
+        - ${ENTERPRISE_TAX_SERVICE_HOST}/about?${spring.application.name}
+        - ${SALESFORCE_SERVICE_HOST}/about?${spring.application.name}
+    data-sources:
+        - dataSource

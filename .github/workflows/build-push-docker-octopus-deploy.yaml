@@ -1,0 +1,67 @@
+name: build-push-docker-octopus-deploy
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push events for the master branch
+  push:
+    branches:
+      - 'master'
+    paths:
+      - '.project-config.yml'
+      - '.version'
+      - 'build.gradle'
+      - 'gradle.properties'
+      - 'settings.gradle'
+      - 'Dockerfile'
+      - 'docker/**'
+      - 'src/**'
+  # Triggers the workflow on pull requests for the master branch
+  pull_request:
+    branches:
+      - 'master'
+    paths:
+      - '.project-config.yml'
+      - '.version'
+      - 'build.gradle'
+      - 'gradle.properties'
+      - 'settings.gradle'
+      - 'Dockerfile'
+      - 'docker/**'
+      - 'src/**'
+  # Allows this workflow to be ran manually from the Actions tab
+  workflow_dispatch:
+    inputs:
+      docker-action:
+        description: 'Docker Image Action'
+        type: 'choice'
+        options:
+        - build-image-only
+        - push-image-to-docker-hub
+        - push-image-and-create-octopus-release
+        - push-image-and-deploy-octopus-release
+      docker-audit:
+        type: boolean
+        description: 'Audit Docker Image'
+
+jobs:
+  call-workflow:
+      uses: the-container-store/github-actions-scripts/.github/workflows/build-push-docker-octopus-deploy.yml@master
+      with:
+        APP_ACCESS: internal
+        APP_BUILD_TYPE: gradle
+        APP_NAME: preston-integrations-proposal-services
+        APP_PROJECT: preston-integrations
+        APP_TEAM: salesforce
+        APP_TYPE: svcapi
+        BUSINESS_CRITICALITY: high
+        CRITICALITY_SCHEDULE: 24x7
+        DOCKER_ACTION: ${{ github.event.inputs.docker-action }}
+        DOCKER_AUDIT: ${{ github.event.inputs.docker-audit }}
+      secrets:
+        DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
+        DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+        GH_ACTIONS_PAT: ${{ secrets.GH_ACTIONS_PAT }}
+        JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+        OCTOPUS_API_KEY: ${{ secrets.OCTOPUS_API_KEY }}
+        SECURITY_AUDIT_TOKEN: ${{ secrets.SECURITY_AUDIT_TOKEN }}
+        TCS_INTEGRATION_EMAIL: ${{ secrets.TCS_INTEGRATION_EMAIL }}

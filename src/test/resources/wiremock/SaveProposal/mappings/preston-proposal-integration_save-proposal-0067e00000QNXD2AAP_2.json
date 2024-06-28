@@ -1,0 +1,33 @@
+{
+    "id": "87a05b99-7b74-4ac0-a354-9665db7740ad",
+    "name": "preston-proposal-integration_save-proposal",
+    "request": {
+        "url": "/preston-proposal-integration/save-proposal",
+        "method": "POST",
+        "bodyPatterns": [
+            {
+                "equalToJson": "{\n    \"opportunityId\": \"0067e00000QNXD2AAP\",\n    \"proposalId\": \"1008\",\n    \"spaces\": [\n        {\n            \"spaceId\": \"569160\",\n            \"retailPrice\": 3922.99,\n            \"sellingPrice\": null,\n            \"color\": \"Chalk\",\n            \"finish\": \"Nickel\",\n            \"spaceFees\": [\n                {\n                    \"name\": \"INSTALLATION_FEE\",\n                    \"fee\": 1628.04\n                },\n                {\n                    \"name\": \"FREIGHT_FEE\",\n                    \"fee\": 3200\n                }\n            ]\n        },\n        {\n            \"spaceId\": \"569161\",\n            \"retailPrice\": 3922.99,\n            \"sellingPrice\": null,\n            \"color\": \"Chalk\",\n            \"finish\": \"Nickel\",\n            \"spaceFees\": [\n                {\n                    \"name\": \"INSTALLATION_FEE\",\n                    \"fee\": 1628.04\n                },\n                {\n                    \"name\": \"FREIGHT_FEE\",\n                    \"fee\": 3200\n                }\n            ]\n        }\n    ],\n    \"tax\": [\n        {\n            \"taxName\": \"SALES_TAX\",\n            \"amount\": 843.88,\n            \"hasError\": null,\n            \"errorMessage\": null\n        }\n    ],\n    \"offers\": [\n        {\n            \"offerCode\": \"PRAMT25\",\n            \"offerName\": null,\n            \"adjustmentValue\": null,\n            \"adjustmentType\": null,\n            \"amountOff\": 25.0,\n            \"hasApplied\": null,\n            \"hasError\": null,\n            \"errorMessage\": null\n        },\n        {\n            \"offerCode\": \"PRSTNEXP\",\n            \"offerName\": null,\n            \"adjustmentValue\": null,\n            \"adjustmentType\": null,\n            \"amountOff\": 500.0,\n            \"hasApplied\": null,\n            \"hasError\": null,\n            \"errorMessage\": null\n        }\n    ]\n}",
+                "ignoreArrayOrder": true,
+                "ignoreExtraElements": true
+            }
+        ]
+    },
+    "response": {
+        "status": 200,
+        "headers": {
+            "Date": "Tue, 28 May 2024 14:57:45 GMT",
+            "Server": "Apache/2.4.46 (IUS) OpenSSL/1.0.2k-fips mod_jk/1.2.42",
+            "Access-Control-Allow-Origin": "*",
+            "Referrer-Policy": "strict-origin-when-cross-origin",
+            "X-Content-Type-Options": "nosniff",
+            "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+            "X-Frame-Options": "SAMEORIGIN",
+            "X-XSS-Protection": "1; mode=block",
+            "Keep-Alive": "timeout=5, max=100",
+            "Content-Type": "application/json"
+        }
+    },
+    "uuid": "87a05b99-7b74-4ac0-a354-9665db7740ad",
+    "persistent": true,
+    "insertionIndex": 4
+}

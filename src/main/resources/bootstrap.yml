@@ -1,0 +1,30 @@
+spring:
+    application:
+        name: preston-integrations-proposal-services
+    cloud:
+        consul:
+            config:
+                enabled: true
+                watch:
+                    enabled: false
+                format: YAML
+                profile-separator: /
+                name: preston-integrations-proposal-services
+                prefixes:
+                    - "app/default"
+                    - "app/${deployment.environment}"
+                    - "app/${deployment.environment}${deployment.stack}"
+                data-key: data
+    main:
+        allow-bean-definition-overriding: true
+
+vault-configuration:
+    vault-paths:
+        -   path: "secret/database/{deployment.environment}/preston/preston-integrations-proposal-services"
+            key-mapping:
+                username: "DATABASE_USERNAME"
+                password: "DATABASE_PASSWORD"
+        -   path: "secret/app/{deployment.environment}{deployment.stack}/preston-integrations-proposal-services"
+            key-mapping:
+              username: "CLOSETPRO_BASIC_USERNAME"
+              password: "CLOSETPRO_BASIC_PASSWORD"

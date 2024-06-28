@@ -1,0 +1,136 @@
+openapi: 3.0.3
+info:
+    title: Proposal Service Webhooks for SalesForce
+    description: 'webhooks for salesforce to push data to proposal services services'
+    version: 1.0.0
+
+servers:
+    -   url: https://www.devpreview.containerstore.com/preston-integrations/proposal-service/apps/salesforce/api/v1/
+        description: Development preview
+    -   url: https://www.tstpreview.containerstore.com/preston-integrations/proposal-service/apps/salesforce/api/v1/
+        description: Test preview - Internal network - Needs VPN
+    -   url: https://www.tstven.containerstore.com/preston-integrations/proposal-service/apps/salesforce/api/v1/
+        description: Test Ven - Public access
+    -   url: https://www.containerstore.com/preston-integrations/proposal-service/apps/salesforce/api/v1/
+        description: Prod
+
+security:
+    -   basicAuth: [ ]
+
+tags:
+    -   name: salesforce webhooks
+        description: push data from salesforce on events to proposal service
+paths:
+    /webhooks/mileage:
+        post:
+            tags:
+                - salesforce webhooks
+            summary: 'Subscribes to salesforce to receive mileage data'
+            description: 'Webhook for salesforce to send drive time and distance between nearest store and customer location'
+            operationId: 'subscribeMileageInfoFromSalesForce'
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/SalesForceMileageRequest'
+                required: true
+            responses:
+                '201':
+                    description: created
+                '400':
+                    description: Bad Request/Invalid input
+                '500':
+                    description: Internal server error
+                '401':
+                    description: Unauthorized request
+
+    /webhooks/tear-out:
+        post:
+            tags:
+                - salesforce webhooks
+            summary: 'consumed by salesforce to push tear out fee details'
+            description: 'On worksheet tear out update events salesforce should send tear out fee per space'
+            operationId: 'subscribeTearOutInfoFromSalesForce'
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/SalesForceTearOutRequest'
+                required: true
+            responses:
+                '201':
+                    description: created
+                '400':
+                    description: Bad Request/Invalid input
+                '500':
+                    description: Internal server error
+
+components:
+    securitySchemes:
+        basicAuth:
+            type: http
+            scheme: basic
+    schemas:
+        SalesForceMileageRequest:
+            required:
+                - eventId
+                - opportunityId
+                - miles
+                - driveTime
+                - installationStoreId
+            type: object
+            properties:
+                eventId:
+                    type: string
+                    minLength: 1
+                opportunityId:
+                    type: string
+                    minLength: 1
+                miles:
+                    type: number
+                    minimum: 0
+                installationStoreId:
+                    type: string
+                    minLength: 1
+                driveTime:
+                    type: object
+                    properties:
+                        duration:
+                            type: number
+                            minimum: 0
+                        chronoUnit:
+                            type: string
+                            enum: [ 'HOURS','MINUTES','SECONDS','DAYS' ]
+
+        SalesForceTearOutRequest:
+            required:
+                - opportunityId
+                - eventId
+                - spaces
+            type: object
+            properties:
+                eventId:
+                    type: string
+                    minLength: 1
+                opportunityId:
+                    type: string
+                    minLength: 1
+                spaces:
+                    type: array
+                    items:
+                        type: object
+                        properties:
+                            spaceId:
+                                type: string
+                                minLength: 1
+                            tearOutFee:
+                                type: number
+                                minimum: 0
+                        required:
+                            - spaceId
+                            - tearOut
+                        minItems: 1
+                        uniqueItems: true
+
+
+

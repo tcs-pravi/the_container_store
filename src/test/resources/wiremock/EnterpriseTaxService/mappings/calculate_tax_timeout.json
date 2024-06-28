@@ -1,0 +1,10 @@
+{
+    "request": {
+        "method": "POST",
+        "url": "/calculateTax"
+    },
+    "response": {
+        "status": 200,
+        "fixedDelayMilliseconds": 6000
+    }
+}

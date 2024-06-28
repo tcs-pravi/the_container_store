@@ -1,0 +1,31 @@
+{
+  "id" : "dfd8de5b-3a21-4c86-99ca-a6057dcf843f",
+  "name" : "preston-proposal-integration_save-proposal",
+  "request" : {
+    "url" : "/preston-proposal-integration/save-proposal",
+    "method" : "POST",
+    "bodyPatterns" : [ {
+      "equalToJson" : "{ \"opportunityId\" : \"0067e00000QNXjKAAX\", \"proposalId\" : \"1331\", \"spaces\" : [ { \"spaceId\" : \"569167\", \"retailPrice\" : 4169.46, \"sellingPrice\" : null, \"color\" : \"Chalk\", \"finish\" : \"Nickel\", \"spaceFees\" : [ { \"name\" : \"INSTALLATION_FEE\", \"fee\" : 1557.29 }, { \"name\" : \"ADDITIONAL_SERVICES_DEMOLITION\", \"fee\" : 301.34 }, { \"name\" : \"FREIGHT_FEE\", \"fee\" : 1184.41 }, { \"name\" : \"ADDITIONAL_SERVICES_FEE\", \"fee\" : 333.34 }, { \"name\" : \"ADDITIONAL_SERVICES_TRANSPORTATION\", \"fee\" : 146.68 } ] }, { \"spaceId\" : \"569168\", \"retailPrice\" : 8742.74, \"sellingPrice\" : null, \"color\" : \"White Velvet\", \"finish\" : \"Slate\", \"spaceFees\" : [ { \"name\" : \"INSTALLATION_FEE\", \"fee\" : 3265.42 }, { \"name\" : \"ADDITIONAL_SERVICES_DEMOLITION\", \"fee\" : 301.33 }, { \"name\" : \"FREIGHT_FEE\", \"fee\" : 2483.53 }, { \"name\" : \"ADDITIONAL_SERVICES_FEE\", \"fee\" : 333.33 }, { \"name\" : \"ADDITIONAL_SERVICES_TRANSPORTATION\", \"fee\" : 146.66 } ] }, { \"spaceId\" : \"569169\", \"retailPrice\" : 3921.71, \"sellingPrice\" : null, \"color\" : \"Granite\", \"finish\" : \"Slate\", \"spaceFees\" : [ { \"name\" : \"INSTALLATION_FEE\", \"fee\" : 1464.76 }, { \"name\" : \"ADDITIONAL_SERVICES_DEMOLITION\", \"fee\" : 301.33 }, { \"name\" : \"FREIGHT_FEE\", \"fee\" : 1114.03 }, { \"name\" : \"ADDITIONAL_SERVICES_FEE\", \"fee\" : 333.33 }, { \"name\" : \"ADDITIONAL_SERVICES_TRANSPORTATION\", \"fee\" : 146.66 } ] } ], \"tax\" : [ { \"taxName\" : \"SALES_TAX\", \"amount\" : 999.94, \"hasError\" : null, \"errorMessage\" : null } ], \"offers\" : [ { \"offerCode\" : \"PRAMT50\", \"offerName\" : null, \"adjustmentValue\" : null, \"adjustmentType\" : null, \"amountOff\" : 5244.0, \"hasApplied\" : null, \"hasError\" : null, \"errorMessage\" : null } ] }",
+        "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "headers" : {
+      "Date" : "Tue, 28 May 2024 14:57:45 GMT",
+        "Server" : "Apache/2.4.46 (IUS) OpenSSL/1.0.2k-fips mod_jk/1.2.42",
+        "Access-Control-Allow-Origin" : "*",
+        "Referrer-Policy" : "strict-origin-when-cross-origin",
+        "X-Content-Type-Options" : "nosniff",
+        "Strict-Transport-Security" : "max-age=31536000; includeSubDomains; preload",
+        "X-Frame-Options" : "SAMEORIGIN",
+        "X-XSS-Protection" : "1; mode=block",
+        "Keep-Alive" : "timeout=5, max=100",
+        "Content-Type" : "application/json"
+    }
+  },
+  "uuid" : "dfd8de5b-3a21-4c86-99ca-a6057dcf843f",
+  "persistent" : true,
+  "insertionIndex" : 13
+}

@@ -1,0 +1,31 @@
+{
+  "id" : "1c5bebba-2ce2-4e35-bd38-9f6de3a83bc3",
+  "name" : "fileretrievalservice.aspx",
+  "request" : {
+    "url" : "/fileretrievalservice.aspx?ID=1280",
+    "method" : "POST",
+    "bodyPatterns" : [ {
+      "equalTo" : "{}",
+      "caseInsensitive" : false
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "base64Pdf.txt",
+    "headers" : {
+      "date" : "Tue, 21 May 2024 09:43:18 GMT",
+      "set-cookie" : "ASP.NET_SessionId=flwrjmrwxqocraskdje2sxbl; path=/; HttpOnly",
+      "server" : "Microsoft-IIS/10.0",
+      "Alt-Svc" : "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+      "content-disposition" : "attachment; filename=Prop-1280.pdf",
+      "x-aspnet-version" : "4.0.30319",
+      "x-powered-by" : "ASP.NET",
+      "content-type" : "application/pdf; charset=utf-8",
+      "cache-control" : "private",
+      "via" : "1.1 google"
+    }
+  },
+  "uuid" : "1c5bebba-2ce2-4e35-bd38-9f6de3a83bc3",
+  "persistent" : true,
+  "insertionIndex" : 6
+}

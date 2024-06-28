@@ -1,0 +1,32 @@
+{
+  "id" : "9f7d49a0-00d4-4b6d-8f1c-5f60c300a80c",
+  "name" : "cart_retrieve-presented-offer",
+  "request" : {
+    "url" : "/cart/retrieve-presented-offer",
+    "method" : "POST",
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\n  \"offerCode\" : \"PRAMT50\",\n  \"ringStore\" : 899\n}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\n  \"offer\" : {\n    \"id\" : 6160507,\n    \"offerCode\" : \"PRAMT50\",\n    \"offerName\" : \"$50 Off Preston TEST OFFER\",\n    \"offerScope\" : \"ORDER\",\n    \"createDateTime\" : null,\n    \"startDateTime\" : \"2024-02-19T00:00:00.000-06:00\",\n    \"endDateTime\" : null,\n    \"tracked\" : false,\n    \"trackedOfferCodeId\" : null,\n    \"durationInDays\" : null,\n    \"customerQualifications\" : null,\n    \"orderQualifications\" : null,\n    \"deliveryMethod\" : \"CODE\",\n    \"isSingleUse\" : false,\n    \"isStackable\" : true,\n    \"redemptionCount\" : 0,\n    \"isTrackingCodeExternallyGenerated\" : false,\n    \"isPromotedWhenNotApplied\" : true,\n    \"emailTemplateId\" : null,\n    \"customAdjustmentValue\" : null,\n    \"isTrackedCodeReplaceable\" : false,\n    \"offerTerms\" : \"\",\n    \"alternateExpirationText\" : null,\n    \"promotionalText\" : null,\n    \"purchasingCustomerLoyaltyTier\" : null,\n    \"skuLists\" : {\n      \"skuListMap\" : { }\n    },\n    \"adjustmentBenefits\" : [ {\n      \"id\" : 2412,\n      \"adjustmentType\" : \"AMOUNT_OFF\",\n      \"appliesTo\" : \"LINE\",\n      \"skus\" : [ ],\n      \"adjustmentValue\" : 50,\n      \"appliesToRule\" : \"line.sku.departmentId == 25\"\n    } ],\n    \"offerStores\" : [ 0, 16, 899 ],\n    \"earnedOfferBenefits\" : [ ],\n    \"buyGetAdjustmentBenefits\" : [ ],\n    \"decliningBalanceBenefits\" : [ ],\n    \"additionalShippingFeeWaivedBenefits\" : [ ],\n    \"feeAdjustmentBenefits\" : [ ],\n    \"qualifiedAdjustmentBenefits\" : [ ],\n    \"redemptionOrders\" : [ ],\n    \"sourceOrders\" : [ ],\n    \"isEmployeeEligible\" : false,\n    \"note\" : null,\n    \"availability\" : \"AUTOMATIC\",\n    \"benefitSummary\" : \"$50 off\"\n  },\n  \"validationResults\" : [ ]\n}",
+    "headers" : {
+      "Keep-Alive" : "timeout=5, max=100",
+      "X-Frame-Options" : "SAMEORIGIN",
+      "Referrer-Policy" : "strict-origin-when-cross-origin",
+      "Strict-Transport-Security" : "max-age=31536000; includeSubDomains; preload",
+      "Server" : "Apache/2.4.58 (IUS) OpenSSL/1.0.2k-fips mod_jk/1.2.42",
+      "Access-Control-Allow-Origin" : "*",
+      "X-Content-Type-Options" : "nosniff",
+      "X-XSS-Protection" : "1; mode=block",
+      "Date" : "Fri, 17 May 2024 09:37:48 GMT",
+      "Content-Type" : "application/json"
+    }
+  },
+  "uuid" : "9f7d49a0-00d4-4b6d-8f1c-5f60c300a80c",
+  "persistent" : true,
+  "insertionIndex" : 3
+}
